@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biluma: Your Skin Brightening Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #7c73e6; /* Biluma Purple */
+            --primary-dark: #5f58b8;
+            --background-start: #fceff9; /* Light Pink/Purple Background */
+            --background-end: #ffffff;
+            --text-color: #4a4a4a;
+            --card-shadow: 0 10px 35px rgba(124, 115, 230, 0.15);
+            --transition-speed: 0.4s;
+        }
+
+        /* General Body & Layout Styles */
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative; /* Added for stable positioning context */
+        }
+
+        /* Main Container for all screens */
+        .container {
+            background-color: white;
+            padding: 2rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            width: 90%;
+            max-width: 550px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn var(--transition-speed) forwards;
+        }
+        
+        /* Animation for screen transitions */
+        .container.hidden {
+            display: block;
+            /* REMOVED 'position: absolute' to allow flexbox to center it during animation */
+            animation: fadeOut var(--transition-speed) forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+                visibility: hidden; /* Hide without affecting layout */
+            }
+        }
+
+        /* Image Styling */
+        .product-image {
+            max-width: 180px;
+            height: auto;
+            margin: 0 auto 1rem auto; /* Center image and add space below */
+            display: block;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Button Styling */
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(124, 115, 230, 0.25);
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(124, 115, 230, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            h1 { font-size: 2.4rem; }
+            h2 { font-size: 2.2rem; }
+            .container { padding: 3rem 4.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen" class="container">
+        <img src="biluma1.webp", alt="Skincare cream for radiance" class="product-image">
+        <h1>Discover Your Path to Radiant Skin</h1>
+        <p>Answer a few questions to find the perfect Biluma solution for your dark spots and uneven skin tone.</p>
+        <button onclick="startQuiz()">Start Your Journey</button>
+    </div>
+
+    <div id="scenario-1" class="container scenario hidden" style="display: none;">
+        <img src="biluma2.webp", alt="Skincare cream for radiance" class="product-image">
+        <h2>Question 1</h2>
+        <p>How would you describe your skin's primary tone concern?</p>
+        <button onclick="chooseOption('dull_skin')">It looks dull and lacks glow</button>
+        <button onclick="chooseOption('sun_spots')">I have visible dark spots from the sun</button>
+        <button onclick="chooseOption('pimple_marks')">I get dark marks after pimples heal</button>
+        <button onclick="chooseOption('even_tone')">My skin tone is generally even</button>
+    </div>
+    
+    <div id="scenario-2" class="container scenario hidden" style="display: none;">
+        <h2>Question 2</h2>
+        <p>What is your main priority for daily skin protection?</p>
+        <button onclick="chooseOption('prevent_spots')">Preventing new dark spots with high SPF</button>
+        <button onclick="chooseOption('hydrating_spf')">Hydration along with sun protection</button>
+        <button onclick="chooseOption('lightweight_spf')">A lightweight feel that won't cause breakouts</button>
+        <button onclick="chooseOption('basic_spf')">Basic protection is usually enough for me</button>
+    </div>
+
+    <div id="scenario-3" class="container scenario hidden" style="display: none;">
+        <h2>Question 3</h2>
+        <p>When you think about "brightening," what is your main goal?</p>
+        <button onclick="chooseOption('radiant_glow')">Achieving an all-over radiant glow</button>
+        <button onclick="chooseOption('reduce_spots')">Reducing the appearance of existing dark spots</button>
+        <button onclick="chooseOption('fade_acne_marks')">Fading old acne marks</button>
+        <button onclick="chooseOption('maintain_tone')">Maintaining my current even skin tone</button>
+    </div>
+
+    <div id="results-screen" class="container hidden" style="display: none;">
+        <h2>Your Recommendation</h2>
+        <p class="result-text" id="skin-type-result"></p>
+        <p id="recommendation"></p>
+        <button onclick="claimTrialPack()">Claim My Trial Pack</button>
+    </div>
+
+    <script>
+        // --- Screen Elements ---
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        const scenarios = document.querySelectorAll('.scenario');
+        let currentScenarioIndex = 0;
+
+        // --- Score Keeper ---
+        let skinTypeScore = { dry: 0, oily: 0, sensitive: 0, normal: 0 };
+        
+        document.querySelectorAll('.container').forEach(el => {
+            el.addEventListener('animationend', (e) => {
+                // When fade-out animation ends, set display to none.
+                if (e.animationName === 'fadeOut' && el.classList.contains('hidden')) {
+                    el.style.display = 'none';
+                }
+            });
+        });
+        
+        function showScreen(screenToShow) {
+             screenToShow.style.display = 'block';
+             // A tiny delay ensures the display property is set before animation starts
+             setTimeout(() => {
+                screenToShow.classList.remove('hidden');
+                screenToShow.style.opacity = 1; // Ensure it's fully visible
+             }, 10);
+        }
+
+        function hideScreen(screenToHide, callback) {
+            screenToHide.classList.add('hidden');
+            setTimeout(callback, 400); // Must match --transition-speed in CSS
+        }
+
+        function startQuiz() {
+            hideScreen(welcomeScreen, () => {
+                showScreen(scenarios[0]); // Show the first question
+            });
+        }
+
+        function chooseOption(option) {
+            // Scoring logic tailored to brightening concerns
+            switch (option) {
+                // Scenario 1
+                case 'dull_skin': skinTypeScore.dry++; break;
+                case 'sun_spots': skinTypeScore.sensitive++; break;
+                case 'pimple_marks': skinTypeScore.oily++; break;
+                case 'even_tone': skinTypeScore.normal++; break;
+                
+                // Scenario 2
+                case 'prevent_spots': skinTypeScore.sensitive++; break;
+                case 'hydrating_spf': skinTypeScore.dry++; break;
+                case 'lightweight_spf': skinTypeScore.oily++; break;
+                case 'basic_spf': skinTypeScore.normal++; break;
+
+                // Scenario 3
+                case 'radiant_glow': skinTypeScore.dry++; break;
+                case 'reduce_spots': skinTypeScore.sensitive++; break;
+                case 'fade_acne_marks': skinTypeScore.oily++; break;
+                case 'maintain_tone': skinTypeScore.normal++; break;
+            }
+
+            const currentScenario = scenarios[currentScenarioIndex];
+            hideScreen(currentScenario, () => {
+                currentScenarioIndex++;
+                if (currentScenarioIndex < scenarios.length) {
+                    showScreen(scenarios[currentScenarioIndex]);
+                } else {
+                    showResults(); // All questions answered
+                }
+            });
+        }
+
+        function showResults() {
+            let skinType = 'Normal Skin';
+            let maxScore = Math.max(skinTypeScore.dry, skinTypeScore.oily, skinTypeScore.sensitive, skinTypeScore.normal);
+
+            if (maxScore > 0) {
+                if (skinTypeScore.sensitive === maxScore) skinType = 'Sensitive Skin';
+                else if (skinTypeScore.dry === maxScore) skinType = 'Dry Skin';
+                else if (skinTypeScore.oily === maxScore) skinType = 'Oily Skin';
+            }
+
+            document.getElementById('skin-type-result').innerText = `Your Brightening Profile: ${skinType}`;
+
+            let recommendation = '';
+            switch (skinType) {
+                case 'Dry Skin':
+                    recommendation = 'For deep hydration and an even tone, we recommend the Biluma Advanced Skin Brightening Cream.';
+                    break;
+                case 'Oily Skin':
+                    recommendation = 'To manage oil and brighten your skin, try the Biluma Clarifying Face Wash.';
+                    break;
+                case 'Sensitive Skin':
+                    recommendation = 'For gentle care and soothing brightness, we recommend the Biluma EVEN TONE Skin Lightening Lotion.';
+                    break;
+                default:
+                    recommendation = 'To maintain a radiant glow, we recommend the Biluma Daily Brightening & Moisturising Lotion.';
+                    break;
+            }
+            document.getElementById('recommendation').innerText = recommendation;
+            
+            showScreen(resultsScreen);
+        }
+
+        function claimTrialPack() {
+            alert("Thank you! Your Biluma trial pack is on its way!");
+        }
+
+        // Initialize all but the first screen to display: none
+        document.addEventListener('DOMContentLoaded', () => {
+            scenarios.forEach(s => s.style.display = 'none');
+            resultsScreen.style.display = 'none';
+        });
+
+    </script>
+</body>
+</html>
